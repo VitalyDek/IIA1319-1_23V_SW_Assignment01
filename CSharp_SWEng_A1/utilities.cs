@@ -11,9 +11,15 @@ using System.IO;
 
 class Utilities
 {
-    public class ctrl
+    public class filter_ctrl
     {
-        //The class is used to control parallel threads.
+
+    }
+    public class ctrl
+    //The class is used to control parallel threads.
+    //lt - logging time
+    //st - sampling time
+    {
         public double lt = 0;
         public double st = 0;
         public string path = "";
@@ -80,8 +86,6 @@ class Utilities
         //Version 4
         UTF8Encoding temp = new UTF8Encoding(true);
         return temp.GetString(File.ReadAllBytes(path));
-        
-
     }
     static public int bWriteFile(string path, string msg)
     {

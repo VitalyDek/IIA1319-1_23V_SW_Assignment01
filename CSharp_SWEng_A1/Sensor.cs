@@ -1,8 +1,6 @@
 ﻿//Created by Vitaly Dekhtyarev 01.02.2022.
 
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 interface ISen
 {
@@ -41,6 +39,8 @@ class SensorA : ISen, ISenAnalog, IDisposable
     private double valueMin;
     private double valueMax;
     private string senType = "A";
+    private double[] valueArr;
+    private double valueFiltered;
 
     public SensorA()
     {
@@ -51,6 +51,8 @@ class SensorA : ISen, ISenAnalog, IDisposable
         this.desc = "Unknown";
         this.valueMin = 0;
         this.valueMax = 0;
+        this.valueArr = new double[5] { -999.99, -999.99, -999.99, -999.99, -999.99 };
+        this.valueFiltered = getFiltered();
     }
     //In windows form application all empty strings will be saved.
     public SensorA(string ID, string position, string unit, string desc, double min, double max)
@@ -67,8 +69,9 @@ class SensorA : ISen, ISenAnalog, IDisposable
         this.valueMin = min;
         this.valueMax = max;
         this.value = min;
+        this.valueArr = new double[5] { -999.99, -999.99, -999.99, -999.99, -999.99 };
+        this.valueFiltered = getFiltered();
     }
-
     public string ID
     {
         get => this.id;
@@ -86,6 +89,10 @@ class SensorA : ISen, ISenAnalog, IDisposable
     public double Value
     {
         get => this.value;
+    }
+    public double ValueFiltered
+    {
+        get => this.valueFiltered;
     }
     public DateTime TimeSample
     {
@@ -128,6 +135,21 @@ class SensorA : ISen, ISenAnalog, IDisposable
         this.value = valueCheck(genDblValue());
         return this.value;
     }
+    public double setValueArr(int i)
+    {
+        this.valueArr[i] = this.getValue();
+        return this.valueArr[i];
+    }
+    public double getFiltered()
+    {
+        double sum_count = 0;
+        for(int i = 0; i < valueArr.Length; i++)
+        {
+            sum_count += valueArr[i];
+        }
+        this.valueFiltered = sum_count / valueArr.Length;
+        return this.valueFiltered;
+    }
     private double valueCheck(double val)
     {
         if(val< this.valueMax && val > this.valueMin)
@@ -140,8 +162,9 @@ class SensorA : ISen, ISenAnalog, IDisposable
         }
     }
     private double genDblValue()
+    //Generate a random value of type double
     {
-        if(this.valueMin != this.valueMax)
+        if (this.valueMin != this.valueMax)
         {
             return ((new Random()).NextDouble() * (this.valueMax - this.valueMin) + this.valueMin);
         }

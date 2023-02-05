@@ -23,6 +23,7 @@ namespace CSharp_SWEng_A1
         private SensorD[] sensorsD;
         private object[][] rows;
         private ctrl ctrl;
+        private System.ComponentModel.BackgroundWorker senBGW_filter = new BackgroundWorker();
         private System.ComponentModel.BackgroundWorker senBGW_sample = new BackgroundWorker();
         private System.ComponentModel.BackgroundWorker senBGW_log = new BackgroundWorker();
         public Form1()
@@ -34,6 +35,7 @@ namespace CSharp_SWEng_A1
         }
         private void initGrid()
         {
+            /*
             if(rows == null || rows.Length == 0)
             {
                 senGrid0.Rows[0].Cells[0].Value = "null";
@@ -41,6 +43,15 @@ namespace CSharp_SWEng_A1
                 senGrid0.Rows[0].Cells[2].Value = "null";
                 senGrid0.Rows[0].Cells[3].Value = "null";
             }
+            */
+        }
+        private void initsenBGW_filter()
+        {
+            senBGW_filter.WorkerSupportsCancellation = true;
+            senBGW_filter.WorkerReportsProgress = true;
+            senBGW_filter.DoWork += new DoWorkEventHandler(senBGW_filter_DoWork);
+            senBGW_filter.RunWorkerCompleted += new RunWorkerCompletedEventHandler(senBGW_filter_RunWorkerCompleted);
+            senBGW_filter.ProgressChanged += new ProgressChangedEventHandler(senBGW_filter_ProgressChanged);
         }
         private void initsenBGW_sample()
         {
@@ -58,11 +69,71 @@ namespace CSharp_SWEng_A1
             senBGW_log.RunWorkerCompleted += new RunWorkerCompletedEventHandler(senBGW_log_RunWorkerCompleted);
             senBGW_log.ProgressChanged += new ProgressChangedEventHandler(senBGW_log_ProgressChanged);
         }
+        private void senBGW_filter_DoWork(object sender, DoWorkEventArgs e)
+        {
+            rep rep = new rep();
+            ctrl ctrlTmp = e.Argument as ctrl;
+            BackgroundWorker worker = sender as BackgroundWorker;
+            double filter_interval = ctrlTmp.st/10/5;
+
+            System.Threading.Thread.Sleep((int)(ctrlTmp.st / 10 * 9 * 1000));  //Skip time before first sampling
+
+            while (true){
+                rep.startTime = DateTime.Now;
+                rep.endTimeSamp = rep.startTime.AddSeconds(ctrlTmp.st);
+
+                if (worker.CancellationPending == true){
+                    e.Cancel = true;
+                    break;
+                }
+
+                if (rep.iRep == 5){
+                    rep.iRep = 0;
+                    /*
+                    if (sensorsA != null){
+                        for (int si = 0; si < sensorsA.Length; si++){
+                            if (sensorsA[si] != null){
+                                sensorsA[si].getFiltered();
+                            }
+                        }
+                    }
+                    */
+                    System.Threading.Thread.Sleep((int)(ctrlTmp.st * 1000));
+                }else{
+                    if (sensorsA != null)
+                    {
+                        for (int si = 0; si < sensorsA.Length; si++)
+                        {
+                            if (sensorsA[si] != null)
+                            {
+                                sensorsA[si].setValueArr(rep.iRep);
+                            }
+                        }
+                    }
+                    rep.iRep++;
+                    System.Threading.Thread.Sleep((int)(filter_interval * 1000));
+                }
+                
+                if (worker.CancellationPending == true){
+                    e.Cancel = true;
+                    break;
+                }
+            }
+        }
+        private void senBGW_filter_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            ;
+        }
+        private void senBGW_filter_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ;
+        }
         private void senBGW_sample_DoWork(object sender, DoWorkEventArgs e)
         {
             rep rep = new rep();
             ctrl ctrlTmp = e.Argument as ctrl;
             BackgroundWorker worker = sender as BackgroundWorker;
+            System.Threading.Thread.Sleep((int)(ctrlTmp.st * 1000));  //Skip time before first sampling
             while (true)
             {
                 rep.startTime = DateTime.Now;
@@ -75,7 +146,8 @@ namespace CSharp_SWEng_A1
                     {
                         if (sensorsA[si] != null)
                         {
-                            sensorsA[si].getValue();
+                            //sensorsA[si].getValue();
+                            sensorsA[si].getFiltered();
                         }
                     }
                 }
@@ -133,7 +205,6 @@ namespace CSharp_SWEng_A1
             rep rep = new rep();
             ctrl ctrlTmp = e.Argument as ctrl;
             BackgroundWorker worker = sender as BackgroundWorker;
-            
             while (true)
             {
                 logStr = "";
@@ -149,7 +220,7 @@ namespace CSharp_SWEng_A1
                     {
                         if (sensorsA[si] != null)
                         {
-                            logStr += $"{sensorsA[si].Value},";
+                            logStr += $"{sensorsA[si].Value.ToString(System.Globalization.CultureInfo.InvariantCulture)},";
                         }
                     }
                 }
@@ -198,7 +269,6 @@ namespace CSharp_SWEng_A1
                     msgBox0.Text += $"{DateTime.Now}:Access to log file is forbidden!{Environment.NewLine}";
                 }
             }
-            
             ltL2.Text = repTmp.endTimeLog.ToString();
         }
         private void senBGW_log_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -314,7 +384,7 @@ namespace CSharp_SWEng_A1
         }
         private void buttonBegMeas_Click(object sender, EventArgs e)
         {
-            double st=0;
+            double st = 0;
             double lt = 0;
 
             if (stBox0.Text == "")
@@ -448,7 +518,7 @@ namespace CSharp_SWEng_A1
                     {
                         if (sensorsA[si] != null)
                         {
-                            rows[ri] = new string[]{sensorsA[si].ID, sensorsA[si].SenType, sensorsA[si].TimeSample.ToString(), sensorsA[si].Value.ToString()};
+                            rows[ri] = new string[]{sensorsA[si].ID, sensorsA[si].SenType, sensorsA[si].TimeSample.ToString(), sensorsA[si].Value.ToString(System.Globalization.CultureInfo.InvariantCulture) };
                             ri++;
                         }
                     }
@@ -488,7 +558,8 @@ namespace CSharp_SWEng_A1
                                     rows[ri][0] = sensorsA[si].ID;
                                     rows[ri][1] = sensorsA[si].SenType;
                                     rows[ri][2] = sensorsA[si].TimeSample.ToString();
-                                    rows[ri][3] = sensorsA[si].Value.ToString();
+                                    //rows[ri][3] = sensorsA[si].Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                    rows[ri][3] = sensorsA[si].ValueFiltered.ToString(System.Globalization.CultureInfo.InvariantCulture);
                                     ri++;
                                 }
                             }
