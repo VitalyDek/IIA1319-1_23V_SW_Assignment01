@@ -192,7 +192,7 @@ namespace CSharp_SWEng_A1
 
                     for (int si = 0; si < sensorsA.Length; si++){
                         if (sensorsA[si] != null){
-                            logStr += $"{sensorsA[si].Value.ToString(System.Globalization.CultureInfo.InvariantCulture)},";
+                            logStr += $"{sensorsA[si].Value.ToString("F3", System.Globalization.CultureInfo.InvariantCulture)},";
                         }
                     }
                 }
@@ -522,7 +522,7 @@ namespace CSharp_SWEng_A1
                                     rows[ri][1] = sensorsA[si].SenType;
                                     rows[ri][2] = sensorsA[si].TimeSample.ToString();
                                     //rows[ri][3] = sensorsA[si].Value.ToString(System.Globalization.CultureInfo.InvariantCulture);
-                                    rows[ri][3] = sensorsA[si].ValueFiltered.ToString(System.Globalization.CultureInfo.InvariantCulture);
+                                    rows[ri][3] = sensorsA[si].ValueFiltered.ToString("F3",System.Globalization.CultureInfo.InvariantCulture);
                                     ri++;
                                 }
                             }
@@ -601,6 +601,10 @@ namespace CSharp_SWEng_A1
                     }
                 }
             }
+        }
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.MessageBox.Show("This application is designed and developed by Vitaly Dekhtyarev during course in Software Engineering at University of South-Eastern Norway in February 2023.");
         }
     }
 }

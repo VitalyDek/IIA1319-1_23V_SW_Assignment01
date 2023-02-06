@@ -113,8 +113,9 @@ namespace CSharp_SWEng_A1
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // tabPage2
             // 
@@ -180,7 +181,7 @@ namespace CSharp_SWEng_A1
             this.ltL1.AutoSize = true;
             this.ltL1.Location = new System.Drawing.Point(120, 55);
             this.ltL1.Name = "ltL1";
-            this.ltL1.Size = new System.Drawing.Size(119, 15);
+            this.ltL1.Size = new System.Drawing.Size(118, 15);
             this.ltL1.TabIndex = 38;
             this.ltL1.Text = "Next logging time at:";
             // 
@@ -198,7 +199,7 @@ namespace CSharp_SWEng_A1
             this.stL1.AutoSize = true;
             this.stL1.Location = new System.Drawing.Point(120, 8);
             this.stL1.Name = "stL1";
-            this.stL1.Size = new System.Drawing.Size(121, 15);
+            this.stL1.Size = new System.Drawing.Size(120, 15);
             this.stL1.TabIndex = 36;
             this.stL1.Text = "Next smpling time at:";
             // 
@@ -217,7 +218,7 @@ namespace CSharp_SWEng_A1
             this.senNumLab0.AutoSize = true;
             this.senNumLab0.Location = new System.Drawing.Point(574, 8);
             this.senNumLab0.Name = "senNumLab0";
-            this.senNumLab0.Size = new System.Drawing.Size(241, 15);
+            this.senNumLab0.Size = new System.Drawing.Size(243, 15);
             this.senNumLab0.TabIndex = 34;
             this.senNumLab0.Text = "Total number of sensors: Analog: 0 Digital: 0.";
             // 
@@ -341,7 +342,7 @@ namespace CSharp_SWEng_A1
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(180, 256);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(61, 15);
+            this.label10.Size = new System.Drawing.Size(60, 15);
             this.label10.TabIndex = 29;
             this.label10.Text = "Max value";
             // 
@@ -386,7 +387,7 @@ namespace CSharp_SWEng_A1
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 214);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(31, 15);
+            this.label5.Size = new System.Drawing.Size(33, 15);
             this.label5.TabIndex = 24;
             this.label5.Text = "Type";
             // 
