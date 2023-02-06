@@ -11,10 +11,6 @@ using System.IO;
 
 class Utilities
 {
-    public class filter_ctrl
-    {
-
-    }
     public class ctrl
     //The class is used to control parallel threads.
     //lt - logging time
@@ -26,8 +22,8 @@ class Utilities
         public int iCtrl=0;
     }
     public class rep
+    //The class is used to obtain report from parallel threads.
     {
-        //The class is used to obtain output from parallel threads.
         public DateTime startTime;
         public DateTime endTimeSamp;
         public DateTime endTimeLog;
@@ -36,8 +32,8 @@ class Utilities
         public string sRep = "";
     }
     public static string bReadFile(string path)
+    //Method to read data from files as bytes.
     {
-        //Method to read data from files as bytes.
         if (!File.Exists(path))
         {
             //return $"File does not exist:{path}";
@@ -88,61 +84,45 @@ class Utilities
         return temp.GetString(File.ReadAllBytes(path));
     }
     static public int bWriteFile(string path, string msg)
+    //Method to write bytes to files.
     {
-        //Method to write bytes to files.
-        int written = 0;
-        if (!File.Exists(path))
-        {
-            try
-            {
-                using (FileStream fs = new FileStream(path, FileMode.Create))
-                {
-                    using (BinaryWriter bw = new BinaryWriter(fs))
-                    {
-                        for (written = 0; written < msg.Length; written++)
-                        {
+    int written = 0;
+        if (!File.Exists(path)){
+            try{
+                using (FileStream fs = new FileStream(path, FileMode.Create)){
+                    using (BinaryWriter bw = new BinaryWriter(fs)){
+                        for (written = 0; written < msg.Length; written++){
                             bw.Write(msg[written]);
                         }
                     }
                 }
             }
-            catch (System.UnauthorizedAccessException e)
-            {
+            catch (System.UnauthorizedAccessException e){
                 written = -1;
             }
             return written;
-        }
-        else
-        {
-            try
-            {
-                using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write))
-                {
-                    using (BinaryWriter bw = new BinaryWriter(fs))
-                    {
-                        for (written = 0; written < msg.Length; written++)
-                        {
+        }else{
+            try{
+                using (FileStream fs = new FileStream(path, FileMode.Append, FileAccess.Write)){
+                    using (BinaryWriter bw = new BinaryWriter(fs)){
+                        for (written = 0; written < msg.Length; written++){
                             bw.Write(msg[written]);
                         }
                     }
                 }
             }
-            catch (System.UnauthorizedAccessException e)
-            {
+            catch (System.UnauthorizedAccessException e){
                 written = -1;
             }
             return written;
-
         }
     }
     static public int sensCount(ISen[] sen)
+    //Method to sount number of sensors in array with sensors.
     {
-        //Method to sount number of sensors in array with sensors.
         int sensCount = 0;
-        for (int i = 0; i < sen.Length; i++)
-        {
-            if (sen[i] != null)
-            {
+        for (int i = 0; i < sen.Length; i++){
+            if (sen[i] != null){
                 sensCount++;
             }
         }

@@ -97,6 +97,7 @@ class SensorA : ISen, ISenAnalog, IDisposable
     public DateTime TimeSample
     {
         get => this.timeSample;
+        set => this.timeSample = value;
     }
     public string Unit
     {
@@ -131,7 +132,7 @@ class SensorA : ISen, ISenAnalog, IDisposable
     }
     public double getValue()
     {
-        this.timeSample = DateTime.Now;
+        //this.timeSample = DateTime.Now;
         this.value = valueCheck(genDblValue());
         return this.value;
     }
@@ -224,6 +225,7 @@ class SensorD : ISen, ISenDigit, IDisposable
     public DateTime TimeSample
     {
         get => this.timeSample;
+        set => this.timeSample = value;
     }
     public string Unit
     {
@@ -258,7 +260,7 @@ class SensorD : ISen, ISenDigit, IDisposable
     }
     public bool getValue()
     {
-        this.timeSample = DateTime.Now;
+        //this.timeSample = DateTime.Now;
         this.value = genFltValue();
         return this.value;
     }

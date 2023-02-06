@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CodeC\\git_reps\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\CSharp_SWEng_A1.csproj",
+      "projectUniqueName": "F:\\CodeC\\git_repos\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\CSharp_SWEng_A1.csproj",
       "projectName": "CSharp_SWEng_A1",
-      "projectPath": "D:\\CodeC\\git_reps\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\CSharp_SWEng_A1.csproj",
+      "projectPath": "F:\\CodeC\\git_repos\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\CSharp_SWEng_A1.csproj",
       "packagesPath": "C:\\Users\\Vitaly\\.nuget\\packages\\",
-      "outputPath": "D:\\CodeC\\git_reps\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\obj\\",
+      "outputPath": "F:\\CodeC\\git_repos\\IIA1319-1_23V_SW_Assignment01\\CSharp_SWEng_A1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
