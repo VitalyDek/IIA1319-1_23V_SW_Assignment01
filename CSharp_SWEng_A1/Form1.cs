@@ -604,7 +604,7 @@ namespace CSharp_SWEng_A1
         }
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            System.Windows.Forms.MessageBox.Show("This application is designed and developed by Vitaly Dekhtyarev during course in Software Engineering at University of South-Eastern Norway in February 2023.");
+            System.Windows.Forms.MessageBox.Show($"This application is designed and developed by Vitaly Dekhtyarev during course in Software Engineering at University of South-Eastern Norway in February 2023.{Environment.NewLine}Plese enter numerical values for sampling iand logging time.{Environment.NewLine}Specify the number of desired sensors.{Environment.NewLine}Specify the path where the log will be saved, do not give the file name.{Environment.NewLine}Click start measurement to start obtaining values","About");
         }
     }
 }
